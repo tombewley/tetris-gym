@@ -13,7 +13,7 @@ class TetrisEnv(gym.Env):
                   np.array([[1,1,0],[0,1,1]])) # 6: Z
     num_upcoming = 4 # Length of lookahead to upcoming pieces
     reward_per_clear = [0., 40., 100., 300., 1200.] # https://tetris.fandom.com/wiki/Scoring
-    reward_per_timestep = 1.
+    reward_per_timestep = 0.
 
     def __init__(self, board_shape=(20,10), vector_obs=False, render_mode=False):
         self.state_space = gym.spaces.Dict({
