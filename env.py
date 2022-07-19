@@ -12,8 +12,9 @@ class TetrisEnv(gym.Env):
                   np.array([[1,1,1],[0,1,0]]), # 5: T
                   np.array([[1,1,0],[0,1,1]])) # 6: Z
     num_upcoming = 4 # Length of lookahead to upcoming pieces
-    reward_per_clear = [0., 40., 100., 300., 1200.] # https://tetris.fandom.com/wiki/Scoring
-    reward_per_timestep = 0.
+    clear_reward = [0., 40., 100., 300., 1200.] # https://tetris.fandom.com/wiki/Scoring
+    timestep_reward = 0.
+    done_reward = -100.
 
     def __init__(self, board_shape=(20,10), vector_obs=False, render_mode=False):
         self.state_space = gym.spaces.Dict({
@@ -66,7 +67,8 @@ class TetrisEnv(gym.Env):
             if num_full: self.board[num_full:] = self.board[~full] # Clear all full rows simultaneously
         self.upcoming[:-1] = self.upcoming[1:] # Remove piece from upcoming...
         self.upcoming[-1] = self.state_space.spaces["upcoming"].sample()[-1] # ...and sample a replacement
-        return self.obs(), self.reward_per_clear[num_full] + self.reward_per_timestep, done, {}
+        reward = self.clear_reward[num_full] + self.timestep_reward + (done * self.done_reward)
+        return self.obs(), reward, done, {}
 
     def obs(self):
         if self.vector_obs:
