@@ -13,6 +13,7 @@ train(agent, {
     "num_episodes": int(1e6),
     "checkpoint_freq": 1000,
     "video_freq": 200,
+    "video_to_wandb": True,
     "render_freq": 0,
     "project_name": "tetris",
     "wandb_monitor": True,
