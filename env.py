@@ -62,7 +62,7 @@ class TetrisEnv(gym.Env):
         if done: num_full = 0
         else:
             self.board[slice_y_prev,slice_x] += piece # Place piece on board
-            full = self.board.sum(axis=1) > self.board.shape[1] - 1 # Identify full rows to clear
+            full = self.board.sum(axis=1) == self.board.shape[1] # Identify full rows to clear
             num_full = full.sum()
             if num_full: self.board[num_full:] = self.board[~full] # Clear all full rows simultaneously
         self.upcoming[:-1] = self.upcoming[1:] # Remove piece from upcoming...
